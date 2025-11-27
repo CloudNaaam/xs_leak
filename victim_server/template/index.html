@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+    <div class="flex flex-col items-center text-center">
+        <!-- 중앙에 크게 표시되는 경고 문구 -->
+        <div class="flex items-center">
+            <h1 class="text-red-500 text-6xl font-bold tracking-widest">
+                XS-leak
+            </h1>
+            <span class="text-gray-400 text-lg ml-4">by cloudnaam</span>
+        </div>
+
+        <!-- 아래 GOGO! 버튼 -->
+        <button onclick="location.href='/login'"
+            class="mt-6 px-6 py-3 text-white bg-blue-600 hover:bg-blue-700 text-xl font-bold rounded-lg transition-all shadow-lg">
+            Login
+        </button>
+        <button onclick="location.href='/iframe'"
+            class="mt-6 px-6 py-3 text-white bg-blue-600 hover:bg-blue-700 text-xl font-bold rounded-lg transition-all shadow-lg">
+            frame
+        </button>
+        <button onclick="location.href='/timing'"
+            class="mt-6 px-6 py-3 text-white bg-blue-600 hover:bg-blue-700 text-xl font-bold rounded-lg transition-all shadow-lg">
+            timing
+        </button>
+    </div>
+</body>
+</html>
