@@ -1,3 +1,7 @@
+CREATE USER 'cloud'@'localhost' IDENTIFIED BY 'cloud';
+GRANT ALL PRIVILEGES ON board_db.* TO 'cloud'@'localhost';
+FLUSH PRIVILEGES;
+
 CREATE DATABASE board_db CHARACTER SET ='utf8' COLLATE = utf8_general_ci;
 
 USE board_db;

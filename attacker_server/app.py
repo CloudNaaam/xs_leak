@@ -5,12 +5,13 @@ app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
 flag = 'CLOUD{'
+url = 'http://54.180.31.209:8000/'
 
 # 구한 flag 출력
 @app.route('/')
 def index():
     global flag
-    param = request.arg.get("flag","")
+    param = request.args.get("flag","")
 
     if param:
         flag += param
@@ -29,13 +30,15 @@ def reset():
 @app.route('/frame')
 def frame():
     global flag
-    return render_template('frame_count.html')
+    global url
+    return render_template('frame_count.html', flag=flag,url=url)
 
 # timing 기반
 @app.route('/timing')
 def timing():
     global flag
-    return render_template('timing.html')
+    global url
+    return render_template('frame_count.html', flag=flag,url=url)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)

