@@ -47,12 +47,10 @@ def save():
         
         with connection.cursor() as cursor:
             sql = "INSERT INTO board (`post`, `secret`) VALUES (%s, 0)"
-            params = (post,)
-            cursor.execute(sql, params)
+            cursor.execute(sql, (post,))
+        connection.commit()
 
         return render_template('save.html', result="Saved!")
-        
-
 
 @app.route('/iframe', methods=['GET','POST'])
 def search_iframe():
