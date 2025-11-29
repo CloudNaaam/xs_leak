@@ -52,45 +52,38 @@ def save():
 
         return render_template('save.html', result="Saved!")
 
-@app.route('/iframe', methods=['GET','POST'])
+@app.route('/iframe', methods=['GET'])
 def search_iframe():
-    if request.method == 'GET':
-        result = None
-        return render_template('iframe.html', result=result)
-    else:
-        query = request.form.get("query","")
+    query = request.params.get("query","")
 
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM board WHERE post LIKE %s;"
-            params = (f'%{query}%',)
-            cursor.execute(sql, params)
-            row = cursor.fetchall()
-        
-        result = row[0] # 첫 번째 결과만
-        # print(result)
-        # print(result['secret'])
-        if result['secret'] == 1:
-            result['post'] = "this is flag lololololol"
+    with connection.cursor() as cursor:
+        sql = "SELECT * FROM board WHERE post LIKE %s;"
+        params = (f'%{query}%',)
+        cursor.execute(sql, params)
+        row = cursor.fetchall()
+    
+    result = row[0] # 첫 번째 결과만
+    # print(result)
+    # print(result['secret'])
+    if result['secret'] == 1:
+        result['post'] = "this is flag lololololol"
 
-        return render_template('iframe.html', result=result)
+    return render_template('iframe.html', result=result)
 
-@app.route('/timing', methods=['GET','POST'])
+@app.route('/timing', methods=['GET'])
 def search_timing():
-    if request.method == 'GET':
-        return render_template('timing.html')
-    else:
-        query = request.form.get("query","")
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM board WHERE post LIKE %s;"
-            params = (f'%{query}%',)
-            cursor.execute(sql, params)
-            row = cursor.fetchall()
-            
-        result = '검색 완료^^'
-            
-        # time.sleep(2) # 이건 최후의 수단
+    query = request.params.get("query","")
+    with connection.cursor() as cursor:
+        sql = "SELECT * FROM board WHERE post LIKE %s;"
+        params = (f'%{query}%',)
+        cursor.execute(sql, params)
+        row = cursor.fetchall()
+        
+    result = '검색 완료^^'
+        
+    # time.sleep(2) # 이건 최후의 수단
 
-        return render_template('timing.html', result=result)
+    return render_template('timing.html', result=result)
     
 
 if __name__ == "__main__":
