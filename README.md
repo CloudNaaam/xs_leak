@@ -41,7 +41,8 @@ XS leak 취약점 익스를 위한 공격자 서버
 ---
 
 ## EXPLOIT
-이따가 gamebox로 촬영
+![exploit](https://github.com/CloudNaaam/xs_leak/issues/1#issue-3680887378)
+
 ---
 
 ## LANGUAGES
