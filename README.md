@@ -41,7 +41,7 @@ XS leak 취약점 익스를 위한 공격자 서버
 ---
 
 ## EXPLOIT
-![exploit](https://github.com/CloudNaaam/xs_leak/issues/1#issue-3680887378)
+![exploit](https://github.com/user-attachments/assets/765b8dd1-c828-4921-838d-74d4f7d79cc8)
 
 ---
 
