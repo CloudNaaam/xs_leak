@@ -54,11 +54,11 @@ def save():
 
 @app.route('/iframe', methods=['GET'])
 def search_iframe():
-    query = request.params.get("query","")
-
+    query = request.args.get("query","")
+    print(query)
     with connection.cursor() as cursor:
         sql = "SELECT * FROM board WHERE post LIKE %s;"
-        params = (f'%{query}%',)
+        params = (f'{query}%',)
         cursor.execute(sql, params)
         row = cursor.fetchall()
     
@@ -72,16 +72,17 @@ def search_iframe():
 
 @app.route('/timing', methods=['GET'])
 def search_timing():
-    query = request.params.get("query","")
+    query = request.args.get("query","")
     with connection.cursor() as cursor:
         sql = "SELECT * FROM board WHERE post LIKE %s;"
-        params = (f'%{query}%',)
+        params = (f'{query}%',)
         cursor.execute(sql, params)
         row = cursor.fetchall()
-        
+    
+    if row:
+        time.sleep(2)
+    
     result = '검색 완료^^'
-        
-    # time.sleep(2) # 이건 최후의 수단
 
     return render_template('timing.html', result=result)
     
