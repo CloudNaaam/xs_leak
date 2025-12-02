@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
 flag = 'CLOUD{'
-url = 'http://16.184.47.79:8000' # 타겟 서버
+url = 'http://43.203.175.240:8000/' # 타겟 서버
 
 # 구한 flag 출력
 @app.route('/')
