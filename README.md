@@ -1,4 +1,4 @@
-# XS leak site for study 
+# XS leak site for study (2025-11-24 ~ 2025-12-01)
 
 ## 📌 목차
 - [SERVERS](#SERVERS)
